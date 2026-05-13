@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apoiar Jornada | Trader Sem Ré</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050507;
+      --surface: rgba(14, 15, 26, 0.92);
+      --text: #f4f4f8;
+      --muted: #9aa1b8;
+      --gold: #d8b15b;
+      --shadow: 0 36px 80px rgba(0, 0, 0, 0.45);
+      --radius: 32px;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: Inter, system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, rgba(216, 177, 91, 0.08), transparent 22%),
+                  radial-gradient(circle at 80% 10%, rgba(113, 215, 255, 0.08), transparent 24%),
+                  linear-gradient(180deg, #050507 0%, #07080c 100%);
+      color: var(--text);
+    }
+
+    .page-shell {
+      max-width: 900px;
+      margin: auto;
+      padding: 3rem 1rem;
+    }
+
+    .glass {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    h1 { margin: 0; font-size: 2.2rem; }
+    h2 { margin: 0 0 1rem; }
+
+    .muted {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      outline: none;
+      margin-top: 10px;
+    }
+
+    /* DROPDOWN ESCURO FIX */
+    select {
+      background: #0c0d14;
+      color: var(--text);
+    }
+
+    option {
+      background: #0c0d14;
+      color: var(--text);
+    }
+
+    button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 1rem;
+      border-radius: 20px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      background: linear-gradient(135deg, #d8b15b, #f0d48b);
+      color: #000;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.02);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .page-shell {
+        padding: 1rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      .glass {
+        padding: 1.5rem;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="page-shell">
+
+  <div class="glass">
+    <img src="assets/img/logo.png" alt="Logo Trader Sem Ré" style="max-width: 100px; margin-bottom: 1rem; display: block;">
+    <h1>Apoia a Jornada</h1>
+    <p class="muted">
+      Envia estratégias, arquivos, links ou qualquer material útil para a comunidade. Suas contribuições ajudam outros traders a aprenderem e crescerem juntos.
+    </p>
+    <p class="muted">
+      Exemplos: Link para um indicador técnico, PDF de análise de mercado, ideia de estratégia, vídeo tutorial ou apoio financeiro.
+    </p>
+  </div>
+
+  <div class="glass">
+    <h2>📢 Como suas contribuições ajudam</h2>
+    <p class="muted">
+      Cada envio enriquece nossa comunidade. Estratégias compartilhadas podem transformar jornadas de traders iniciantes em sucessos reais. Apoio financeiro mantém o projeto vivo e acessível a todos.
+    </p>
+  </div>
+
+  <div class="glass">
+
+    <h2>Enviar contribuição</h2>
+
+    <select id="tipo" onchange="trocarCampo()">
+      <option value="">Seleciona tipo</option>
+      <option value="link">🔗 Link útil</option>
+      <option value="file">📄 Arquivo (PDF / Script)</option>
+      <option value="image">🖼️ Imagem / Print</option>
+      <option value="video">🎥 Vídeo</option>
+      <option value="audio">🎵 Áudio</option>
+      <option value="codigo">💻 Código / Script</option>
+      <option value="text">📝 Texto / Ideia</option>
+      <option value="apoio">💰 Apoio financeiro</option>
+    </select>
+
+    <input type="text" id="nome" placeholder="Nome (opcional)">
+
+    <!-- LINK -->
+    <input id="link" class="hidden" type="url" placeholder="Cola o link aqui">
+
+    <!-- FILE -->
+    <input id="file" class="hidden" type="file">
+
+    <!-- IMAGE -->
+    <input id="image" class="hidden" type="file" accept="image/*">
+
+    <!-- VIDEO -->
+    <input id="video" class="hidden" type="url" placeholder="Link do vídeo (YouTube, etc.)">
+
+    <!-- AUDIO -->
+    <input id="audio" class="hidden" type="url" placeholder="Link do áudio">
+
+    <!-- CODIGO -->
+    <textarea id="codigo" class="hidden" placeholder="Cole o código ou script aqui"></textarea>
+
+    <!-- TEXT -->
+    <textarea id="text" class="hidden" placeholder="Escreve aqui a ideia ou estratégia"></textarea>
+
+    <!-- APOIO FINANCEIRO -->
+    <div id="apoio" class="hidden">
+      <p class="muted">Clique abaixo para apoiar financeiramente o projeto:</p>
+      <a href="https://paysertrader.netlify.app/" target="_blank" style="text-decoration: none;">
+        <button type="button" style="background: linear-gradient(135deg, #d8b15b, #f0d48b); color: #000; border: none; padding: 1rem; border-radius: 20px; width: 100%; font-weight: bold; cursor: pointer;">
+          💰 Apoiar Financeiramente
+        </button>
+      </a>
+    </div>
+
+    <button id="enviarBtn" onclick="enviarContribuicao()">Enviar</button>
+
+    <div id="mensagem" class="hidden" style="margin-top: 1rem; padding: 1rem; background: rgba(216, 177, 91, 0.1); border-radius: 18px; color: var(--gold);">
+      Obrigado! Sua contribuição foi enviada com sucesso.
+    </div>
+
+  </div>
+
+  <div class="glass">
+    <h2>📞 Contato e Redes Sociais</h2>
+    <p class="muted">
+      Junte-se à nossa comunidade: <a href="#" style="color: var(--gold);">Telegram</a> | <a href="#" style="color: var(--gold);">Discord</a> | <a href="#" style="color: var(--gold);">Instagram</a><br>
+      Dúvidas? Envie para: contato@tradersemre.com
+    </p>
+  </div>
+
+  <div class="glass">
+    <h2>🔒 Privacidade</h2>
+    <p class="muted">
+      Suas contribuições são anônimas e usadas apenas para enriquecer a comunidade. Não compartilhamos dados pessoais sem consentimento.
+    </p>
+  </div>
+
+</div>
+
+<script>
+function trocarCampo() {
+  let tipo = document.getElementById("tipo").value;
+
+  let link = document.getElementById("link");
+  let file = document.getElementById("file");
+  let image = document.getElementById("image");
+  let video = document.getElementById("video");
+  let audio = document.getElementById("audio");
+  let codigo = document.getElementById("codigo");
+  let text = document.getElementById("text");
+  let apoio = document.getElementById("apoio");
+
+  link.classList.add("hidden");
+  file.classList.add("hidden");
+  image.classList.add("hidden");
+  video.classList.add("hidden");
+  audio.classList.add("hidden");
+  codigo.classList.add("hidden");
+  text.classList.add("hidden");
+  apoio.classList.add("hidden");
+
+  if (tipo === "link") link.classList.remove("hidden");
+  if (tipo === "file") file.classList.remove("hidden");
+  if (tipo === "image") image.classList.remove("hidden");
+  if (tipo === "video") video.classList.remove("hidden");
+  if (tipo === "audio") audio.classList.remove("hidden");
+  if (tipo === "codigo") codigo.classList.remove("hidden");
+  if (tipo === "text") text.classList.remove("hidden");
+  if (tipo === "apoio") apoio.classList.remove("hidden");
+}
+
+function enviarContribuicao() {
+  let tipo = document.getElementById("tipo").value;
+  let nome = document.getElementById("nome").value;
+  let mensagem = document.getElementById("mensagem");
+
+  if (!tipo) {
+    alert("Por favor, selecione um tipo de contribuição.");
+    return;
+  }
+
+  let conteudo = "";
+  if (tipo === "link") conteudo = document.getElementById("link").value;
+  else if (tipo === "file") conteudo = document.getElementById("file").files[0] ? document.getElementById("file").files[0].name : "";
+  else if (tipo === "image") conteudo = document.getElementById("image").files[0] ? document.getElementById("image").files[0].name : "";
+  else if (tipo === "video") conteudo = document.getElementById("video").value;
+  else if (tipo === "audio") conteudo = document.getElementById("audio").value;
+  else if (tipo === "codigo") conteudo = document.getElementById("codigo").value;
+  else if (tipo === "text") conteudo = document.getElementById("text").value;
+  else if (tipo === "apoio") {
+    // Para apoio financeiro, redireciona diretamente
+    window.open("https://paysertrader.netlify.app/", "_blank");
+    return;
+  }
+
+  if (!conteudo && tipo !== "apoio") {
+    alert("Por favor, preencha o conteúdo da contribuição.");
+    return;
+  }
+
+  // Simular envio (em produção, integrar com backend)
+  console.log("Contribuição enviada:", { tipo, nome, conteudo });
+
+  // Mostrar mensagem de sucesso
+  mensagem.classList.remove("hidden");
+  setTimeout(() => mensagem.classList.add("hidden"), 5000);
+
+  // Limpar formulário
+  document.getElementById("tipo").value = "";
+  document.getElementById("nome").value = "";
+  trocarCampo();
+}
+</script>
+
+</body>
+</html>
