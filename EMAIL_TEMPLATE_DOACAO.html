@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Template EmailJS - Doação SemRé Hub</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #050507;
+    font-family: Arial, sans-serif;
+    color: #f4f4f8;
+  }
+  .container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: #0e0f1a;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .header {
+    padding: 35px;
+    text-align: center;
+    background: linear-gradient(135deg,#d8b15b,#f0d48b);
+    color: #000;
+  }
+  .header h1 {
+    margin: 0;
+    font-size: 32px;
+  }
+  .header p {
+    margin-top: 10px;
+    opacity: 0.8;
+  }
+  .content {
+    padding: 30px;
+  }
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .label {
+    color: #d8b15b;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .value {
+    font-size: 15px;
+    line-height: 1.7;
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+  a {
+    color: #71d7ff;
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .footer {
+    padding: 25px;
+    text-align: center;
+    color: #9aa1b8;
+    font-size: 13px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .highlight {
+    color: #d8b15b;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🚀 Nova Doação Recebida</h1>
+    <p>SemRé Hub • Comunidade Trader Sem Ré</p>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="label">Nome</div>
+      <div class="value">{{user_name}}</div>
+    </div>
+    <div class="card">
+      <div class="label">Tipo de contribuição</div>
+      <div class="value highlight">{{contribution_type}}</div>
+    </div>
+    <div class="card">
+      <div class="label">Conteúdo enviado</div>
+      <div class="value">{{contribution_text}}</div>
+    </div>
+    <div class="card">
+      <div class="label">Link compartilhado</div>
+      <div class="value">
+        <a href="{{contribution_url}}" target="_blank">{{contribution_url}}</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="label">Nomes dos arquivos</div>
+      <div class="value">{{file_names}}</div>
+    </div>
+    <div class="card">
+      <div class="label">URLs de upload</div>
+      <div class="value">{{file_urls}}</div>
+    </div>
+  </div>
+  <div class="footer">
+    Mensagem automática enviada pelo <strong>SemRé Hub</strong><br>
+    Trader Sem Ré © 2026
+  </div>
+</div>
+</body>
+</html>

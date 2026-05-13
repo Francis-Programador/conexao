@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Apoiar Jornada | Trader Sem Ré</title>
 
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    emailjs.init("NFDALb66MwcvcD4WR");
+  </script>
+
   <style>
     :root {
       color-scheme: dark;
@@ -157,10 +163,10 @@
     <input id="link" class="hidden" type="url" placeholder="Cola o link aqui">
 
     <!-- FILE -->
-    <input id="file" class="hidden" type="file">
+    <input id="file" name="files" class="hidden" type="file" multiple title="Selecione um ou mais arquivos">
 
     <!-- IMAGE -->
-    <input id="image" class="hidden" type="file" accept="image/*">
+    <input id="image" name="images" class="hidden" type="file" accept="image/*" multiple title="Selecione uma ou mais imagens">
 
     <!-- VIDEO -->
     <input id="video" class="hidden" type="url" placeholder="Link do vídeo (YouTube, etc.)">
@@ -173,6 +179,9 @@
 
     <!-- TEXT -->
     <textarea id="text" class="hidden" placeholder="Escreve aqui a ideia ou estratégia"></textarea>
+
+    <p id="fileHint" class="muted hidden" style="margin-top: 0.5rem; font-size: 0.95rem;">Selecione mais de um arquivo mantendo Ctrl ou Shift pressionado.</p>
+    <p id="fileInfo" class="muted hidden" style="margin-top: 0.5rem; font-size: 0.95rem;"></p>
 
     <!-- APOIO FINANCEIRO -->
     <div id="apoio" class="hidden">
@@ -210,78 +219,212 @@
 </div>
 
 <script>
+const CLOUDINARY_CONFIG = {
+  CLOUD_NAME: 'dgj5l53mw',
+  UPLOAD_PRESET: 'kvn6gum3',
+  API_KEY: '926288465169768'
+};
+const EMAILJS_SERVICE = 'serviço_de_solicitação';
+const EMAILJS_TEMPLATE = 'template_doação';
+const btn = document.getElementById('enviarBtn');
+const fileInfo = document.getElementById('fileInfo');
+const fileHint = document.getElementById('fileHint');
+
 function trocarCampo() {
-  let tipo = document.getElementById("tipo").value;
+  const tipo = document.getElementById('tipo').value;
+  const link = document.getElementById('link');
+  const file = document.getElementById('file');
+  const image = document.getElementById('image');
+  const video = document.getElementById('video');
+  const audio = document.getElementById('audio');
+  const codigo = document.getElementById('codigo');
+  const text = document.getElementById('text');
+  const apoio = document.getElementById('apoio');
 
-  let link = document.getElementById("link");
-  let file = document.getElementById("file");
-  let image = document.getElementById("image");
-  let video = document.getElementById("video");
-  let audio = document.getElementById("audio");
-  let codigo = document.getElementById("codigo");
-  let text = document.getElementById("text");
-  let apoio = document.getElementById("apoio");
+  link.classList.add('hidden');
+  file.classList.add('hidden');
+  image.classList.add('hidden');
+  video.classList.add('hidden');
+  audio.classList.add('hidden');
+  codigo.classList.add('hidden');
+  text.classList.add('hidden');
+  apoio.classList.add('hidden');
+  fileInfo.classList.add('hidden');
+  fileHint.classList.add('hidden');
 
-  link.classList.add("hidden");
-  file.classList.add("hidden");
-  image.classList.add("hidden");
-  video.classList.add("hidden");
-  audio.classList.add("hidden");
-  codigo.classList.add("hidden");
-  text.classList.add("hidden");
-  apoio.classList.add("hidden");
+  if (tipo === 'link') link.classList.remove('hidden');
+  if (tipo === 'file') {
+    file.classList.remove('hidden');
+    fileHint.classList.remove('hidden');
+  }
+  if (tipo === 'image') {
+    image.classList.remove('hidden');
+    fileHint.classList.remove('hidden');
+  }
+  if (tipo === 'video') video.classList.remove('hidden');
+  if (tipo === 'audio') audio.classList.remove('hidden');
+  if (tipo === 'codigo') codigo.classList.remove('hidden');
+  if (tipo === 'text') text.classList.remove('hidden');
+  if (tipo === 'apoio') apoio.classList.remove('hidden');
+}
 
-  if (tipo === "link") link.classList.remove("hidden");
-  if (tipo === "file") file.classList.remove("hidden");
-  if (tipo === "image") image.classList.remove("hidden");
-  if (tipo === "video") video.classList.remove("hidden");
-  if (tipo === "audio") audio.classList.remove("hidden");
-  if (tipo === "codigo") codigo.classList.remove("hidden");
-  if (tipo === "text") text.classList.remove("hidden");
-  if (tipo === "apoio") apoio.classList.remove("hidden");
+function updateFileInfo(files) {
+  if (!files || !files.length) {
+    fileInfo.textContent = '';
+    fileInfo.classList.add('hidden');
+    return;
+  }
+
+  fileInfo.textContent = `${files.length} arquivo(s) selecionado(s): ${Array.from(files).map((file) => file.name).join(', ')}`;
+  fileInfo.classList.remove('hidden');
 }
 
 function enviarContribuicao() {
-  let tipo = document.getElementById("tipo").value;
-  let nome = document.getElementById("nome").value;
-  let mensagem = document.getElementById("mensagem");
+  const tipo = document.getElementById('tipo').value;
+  const nome = document.getElementById('nome').value.trim() || 'Anônimo';
+  const mensagem = document.getElementById('mensagem');
 
   if (!tipo) {
-    alert("Por favor, selecione um tipo de contribuição.");
+    alert('Por favor, selecione um tipo de contribuição.');
     return;
   }
 
-  let conteudo = "";
-  if (tipo === "link") conteudo = document.getElementById("link").value;
-  else if (tipo === "file") conteudo = document.getElementById("file").files[0] ? document.getElementById("file").files[0].name : "";
-  else if (tipo === "image") conteudo = document.getElementById("image").files[0] ? document.getElementById("image").files[0].name : "";
-  else if (tipo === "video") conteudo = document.getElementById("video").value;
-  else if (tipo === "audio") conteudo = document.getElementById("audio").value;
-  else if (tipo === "codigo") conteudo = document.getElementById("codigo").value;
-  else if (tipo === "text") conteudo = document.getElementById("text").value;
-  else if (tipo === "apoio") {
-    // Para apoio financeiro, redireciona diretamente
-    window.open("https://paysertrader.netlify.app/", "_blank");
+  const payload = {
+    user_name: nome,
+    contribution_type: tipo,
+    contribution_text: '',
+    contribution_url: '',
+    file_urls: '',
+    file_names: ''
+  };
+
+  let conteudo = '';
+  if (tipo === 'link') conteudo = document.getElementById('link').value.trim();
+  else if (tipo === 'video') conteudo = document.getElementById('video').value.trim();
+  else if (tipo === 'audio') conteudo = document.getElementById('audio').value.trim();
+  else if (tipo === 'codigo') conteudo = document.getElementById('codigo').value.trim();
+  else if (tipo === 'text') conteudo = document.getElementById('text').value.trim();
+
+  if (tipo === 'apoio') {
+    payload.contribution_text = 'Usuário escolheu apoiar financeiramente o projeto.';
+    payload.contribution_url = 'https://paysertrader.netlify.app/';
+    payload.file_urls = '';
+    payload.file_names = '';
+    btn.innerText = 'Enviando...';
+    btn.disabled = true;
+    return sendEmail(payload, true);
+  }
+
+  if (tipo === 'file' || tipo === 'image') {
+    const fileInput = document.getElementById(tipo);
+    const files = Array.from(fileInput.files);
+
+    if (!files.length) {
+      alert('Por favor, selecione ao menos um arquivo.');
+      return;
+    }
+
+    payload.file_names = files.map((file) => file.name).join('\n');
+    payload.contribution_text = `Enviados ${files.length} arquivo(s).`;
+    payload.contribution_url = '';
+
+    btn.innerText = 'Enviando...';
+    btn.disabled = true;
+
+    uploadCloudinaryFiles(files, tipo === 'image' ? 'doacao_imagens' : 'doacao_arquivos')
+      .then((urls) => {
+        payload.file_urls = urls.join('\n');
+        return sendEmail(payload);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert('Falha ao enviar arquivos. Tente novamente.');
+        btn.innerText = 'Enviar';
+        btn.disabled = false;
+      });
+
     return;
   }
 
-  if (!conteudo && tipo !== "apoio") {
-    alert("Por favor, preencha o conteúdo da contribuição.");
+  if (!conteudo) {
+    alert('Por favor, preencha o conteúdo da contribuição.');
     return;
   }
 
-  // Simular envio (em produção, integrar com backend)
-  console.log("Contribuição enviada:", { tipo, nome, conteudo });
+  payload.contribution_text = conteudo;
+  payload.file_urls = '';
+  payload.file_names = '';
 
-  // Mostrar mensagem de sucesso
-  mensagem.classList.remove("hidden");
-  setTimeout(() => mensagem.classList.add("hidden"), 5000);
-
-  // Limpar formulário
-  document.getElementById("tipo").value = "";
-  document.getElementById("nome").value = "";
-  trocarCampo();
+  btn.innerText = 'Enviando...';
+  btn.disabled = true;
+  sendEmail(payload);
 }
+
+function uploadCloudinaryFiles(files, folder) {
+  const promises = files.map((file) => {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', CLOUDINARY_CONFIG.UPLOAD_PRESET);
+    fd.append('api_key', CLOUDINARY_CONFIG.API_KEY);
+    fd.append('folder', folder);
+
+    return fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.CLOUD_NAME}/${file.type.startsWith('image/') ? 'image' : 'raw'}/upload`, {
+      method: 'POST',
+      body: fd
+    })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`Upload Cloudinary falhou: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then((data) => {
+      if (!data.secure_url) {
+        throw new Error('Resposta inválida do Cloudinary.');
+      }
+      return data.secure_url;
+    });
+  });
+
+  return Promise.all(promises);
+}
+
+function sendEmail(payload, redirectSupport = false) {
+  const mensagem = document.getElementById('mensagem');
+  return emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, payload)
+    .then(() => {
+      btn.innerText = 'Enviar';
+      btn.disabled = false;
+      mensagem.classList.remove('hidden');
+      setTimeout(() => mensagem.classList.add('hidden'), 5000);
+      document.getElementById('tipo').value = '';
+      document.getElementById('nome').value = '';
+      document.getElementById('link').value = '';
+      document.getElementById('video').value = '';
+      document.getElementById('audio').value = '';
+      document.getElementById('codigo').value = '';
+      document.getElementById('text').value = '';
+      document.getElementById('file').value = '';
+      document.getElementById('image').value = '';
+      fileInfo.classList.add('hidden');
+      trocarCampo();
+
+      if (redirectSupport) {
+        window.open(payload.contribution_url, '_blank');
+      }
+    })
+    .catch((err) => {
+      console.error('Erro EmailJS:', err);
+      alert('Erro ao enviar. Verifique sua conexão e tente novamente.');
+      btn.innerText = 'Enviar';
+      btn.disabled = false;
+    });
+}
+
+const fileInput = document.getElementById('file');
+const imageInput = document.getElementById('image');
+if (fileInput) fileInput.addEventListener('change', () => updateFileInfo(fileInput.files));
+if (imageInput) imageInput.addEventListener('change', () => updateFileInfo(imageInput.files));
 </script>
 
 </body>
