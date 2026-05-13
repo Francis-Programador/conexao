@@ -1,0 +1,149 @@
+GUIA DE EDIÇÃO - SER TRADER SEM RÉ
+===================================
+
+Arquivos principais:
+- index.html
+- verificacao.html
+- assets/css/style.css
+- assets/css/verificacao.css
+- assets/js/script.js
+- assets/js/verificacao.js
+
+O que já foi verificado:
+- Os scripts JavaScript foram validados e não possuem erros de sintaxe.
+- A página de verificação (`verificacao.html`) recebeu correção para ocultar o carregador.
+- A logo do projeto foi atualizada para `assets/img/logo.png`.
+
+COMO EDITAR CADA ARQUIVO
+------------------------
+
+1) index.html
+-------------
+O arquivo principal contém os links de acesso e a apresentação.
+Substitua os placeholders `href="#"` pelos links reais:
+  - YouTube
+  - Instagram
+  - TikTok
+  - Telegram
+  - WhatsApp
+  - Canal VIP
+  - Cursos
+  - Meu Site
+  - Contato
+  - Mentoria
+  - Comunidade
+
+Também é possível alterar:
+  - `TRADER SEM RÉ` (título principal)
+  - descrição profissional
+  - textos dos botões
+  - contadores (Seguidores, Clientes, Produtos, Satisfação)
+  - seções "Sobre mim" e "Conexões diretas"
+
+Exemplo de botão:
+  <a href="https://seu-link.com" class="link-card btn-primary">YouTube</a>
+
+Botão especial:
+  o botão "🎁 ADQUIRIR PRODUTOS GRATUITAMENTE" já aponta para `verificacao.html`.
+
+2) verificacao.html
+-------------------
+Página de validação de seguidores.
+Edite os campos, textos e placeholders conforme sua necessidade.
+
+Campos que aparecem:
+  - Nome completo
+  - Email
+  - Username Instagram
+  - Username TikTok
+  - Nome / canal YouTube
+
+Uploads:
+  - Print inscrito no YouTube
+  - Print seguindo Instagram
+  - Print seguindo TikTok
+
+Você pode alterar:
+  - textos de instrução
+  - labels dos uploads
+  - mensagem de sucesso final
+
+O formulário está preparado para backend futuro e já suporta EmailJS.
+Substitua em `assets/js/verificacao.js`:
+  - `service_xxx` pelo seu Service ID do EmailJS
+  - `template_xxx` pelo seu Template ID do EmailJS
+
+O novo campo de mensagem do seguidor foi adicionado como `user_message`.
+
+Existe também um modelo de email pronto em `EMAIL_TEMPLATE_VERIFICACAO.html`.
+Esse template usa as variáveis:
+  - `{{user_name}}`
+  - `{{user_email}}`
+  - `{{user_instagram}}`
+  - `{{user_tiktok}}`
+  - `{{user_youtube}}`
+  - `{{user_message}}`
+  - `{{youtube_print}}`, `{{instagram_print}}`, `{{tiktok_print}}`
+
+A integração EmailJS usa `emailjs.sendForm(...)` para enviar os dados do formulário.
+
+3) assets/css/style.css
+------------------------
+Estilos da página principal.
+Altere cores, efeitos e tipografia aqui.
+
+Principais variáveis:
+  --bg, --surface, --text, --gold, --neon
+
+4) assets/css/verificacao.css
+------------------------------
+Estilos da página de verificação.
+Altere bordas, cores, estados de foco e toast notification.
+
+5) assets/js/script.js
+----------------------
+JavaScript da página principal.
+Este arquivo gera o efeito de partículas e esconde o loader.
+
+Você pode ajustar:
+  - quantidade de partículas em `generateParticles(particles, 18);`
+  - tempo de exibição do loader em `setTimeout(..., 650)`
+
+6) assets/js/verificacao.js
+---------------------------
+JavaScript da página de verificação.
+Responsável por:
+  - drag & drop de uploads
+  - preview das imagens
+  - validação do formulário
+  - simulação de upload
+  - notificações toast
+
+Se criar backend no futuro, substitua `simulateUpload()` pelo envio real dos dados.
+
+O que editar aqui:
+  - mensagens exibidas em `showToast(...)`
+  - lógica de validação de campos
+  - implementação do upload real para PHP/Firebase/API
+
+Como atualizar links passo a passo
+----------------------------------
+1. Abra o arquivo desejado em um editor.
+2. Procure por `href="#"`.
+3. Substitua pelo URL real, por exemplo:
+   href="https://www.youtube.com/channel/SEU_CANAL"
+4. Salve o arquivo.
+5. Abra o HTML no navegador e teste.
+
+DICAS DE MANUTENÇÃO
+------------------
+- Mantenha os arquivos organizados na pasta `assets/`.
+- Use `assets/img/logo.png` para a sua logo principal.
+- Para adicionar novos botões, copie um bloco `<a class="link-card ...">...</a>`.
+- Para personalizar o estilo global, altere `:root` em `assets/css/style.css`.
+
+ARQUIVO DE REFERÊNCIA
+---------------------
+Esse arquivo explica os pontos principais para editar o projeto.
+
+Se precisar, posso também criar um `README.txt` mais detalhado com exemplos de links e um mapa dos trechos de código. 
