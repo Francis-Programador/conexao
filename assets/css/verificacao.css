@@ -295,3 +295,28 @@ body { overflow-x: hidden; }
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+.btn-follow {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 14px;
+
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+
+  color: #0b0c10;
+
+  border-radius: 10px;
+
+  background: linear-gradient(135deg, #d8b15b, #ffe9a6);
+
+  box-shadow: 0 10px 25px rgba(216, 177, 91, 0.25);
+
+  transition: 0.2s ease;
+}
+
+.btn-follow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(216, 177, 91, 0.4);
+}
