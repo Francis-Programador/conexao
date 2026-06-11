@@ -1,116 +1,145 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verificação | TRADER SEM RÉ</title>
+
+  <title>Acesso Gratuito | TRADER SEM RÉ</title>
+
   <link rel="stylesheet" href="assets/css/verificacao.css">
-  <!-- EmailJS SDK -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script type="text/javascript">
-    (function() {
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    (function () {
       emailjs.init("NFDALb66MwcvcD4WR");
     })();
   </script>
 </head>
+
 <body>
+
   <div id="loader" class="loader-overlay">
     <div class="loader-ring"></div>
   </div>
 
-  <!-- Atualize apenas textos, placeholders e links abaixo. -->
   <div class="verify-shell">
+
+    <!-- HEADER -->
     <div class="verify-header glass-panel">
+
       <div>
-        <p class="eyebrow">Verificação de acesso</p>
-        <h1>Receba conteúdos gratuitos</h1>
-        <p>Preencha seus dados e envie os prints comprovando que segue minhas redes sociais.</p>
+        <p class="eyebrow">Acesso gratuito</p>
+
+        <h1>Desbloquear conteúdos exclusivos</h1>
+
+        <p>
+          Preenche os dados abaixo para receber acesso aos materiais gratuitos da comunidade TRADER SEM RÉ.
+        </p>
       </div>
+
     </div>
 
+    <!-- FORM -->
     <form id="verificationForm" class="verify-form glass-panel" novalidate>
+
       <div class="input-group">
-        <label for="name">Nome completo</label>
-        <input id="name" name="user_name" type="text" placeholder="Seu nome completo" required>
+        <label>Nome completo</label>
+        <input name="user_name" type="text" placeholder="O teu nome" required>
       </div>
 
       <div class="input-group">
-        <label for="email">Email</label>
-        <input id="email" name="user_email" type="email" placeholder="seu@email.com" required>
+        <label>Email</label>
+        <input name="user_email" type="email" placeholder="teuemail@gmail.com" required>
       </div>
 
       <div class="row-group">
+
         <div class="input-group">
-          <label for="instagram">Username Instagram</label>
-          <input id="instagram" name="user_instagram" type="text" placeholder="@seuusuario" required>
+          <label>Instagram</label>
+          <input name="user_instagram" type="text" placeholder="@usuario" required>
         </div>
+
         <div class="input-group">
-          <label for="tiktok">Username TikTok</label>
-          <input id="tiktok" name="user_tiktok" type="text" placeholder="@seuusuario" required>
+          <label>TikTok</label>
+          <input name="user_tiktok" type="text" placeholder="@usuario" required>
         </div>
+
       </div>
 
       <div class="input-group">
-        <label for="youtube">Nome / canal YouTube</label>
-        <input id="youtube" name="user_youtube" type="text" placeholder="Nome do canal" required>
+        <label>YouTube</label>
+        <input name="user_youtube" type="text" placeholder="Nome do canal" required>
       </div>
 
       <div class="input-group">
-        <label for="message">Mensagem breve</label>
-        <textarea id="message" name="user_message" placeholder="Deixe uma mensagem rápida para o Trader Sem Ré" rows="4" required></textarea>
+        <label>Mensagem (opcional)</label>
+        <textarea name="user_message" rows="4"
+          placeholder="Escreve algo rápido se quiseres"></textarea>
       </div>
 
+      <!-- PROVAS -->
       <div class="upload-grid">
-        <div class="upload-card" data-field="youtubeProof">
-          <h3>Print inscrito no YouTube</h3>
+
+        <div class="upload-card">
+          <h3>YouTube</h3>
           <div class="upload-drop" id="youtubeDrop">
-            <span>Arraste e solte aqui</span>
-            <strong>OU clique para selecionar</strong>
+            <span>Adicionar print de inscrição</span>
+            <strong>Clique ou arraste aqui</strong>
           </div>
           <div class="preview" id="youtubePreview"></div>
         </div>
 
-        <div class="upload-card" data-field="instagramProof">
-          <h3>Print seguindo Instagram</h3>
+        <div class="upload-card">
+          <h3>Instagram</h3>
           <div class="upload-drop" id="instagramDrop">
-            <span>Arraste e solte aqui</span>
-            <strong>OU clique para selecionar</strong>
+            <span>Adicionar print de follow</span>
+            <strong>Clique ou arraste aqui</strong>
           </div>
           <div class="preview" id="instagramPreview"></div>
         </div>
 
-        <div class="upload-card" data-field="tiktokProof">
-          <h3>Print seguindo TikTok</h3>
+        <div class="upload-card">
+          <h3>TikTok</h3>
           <div class="upload-drop" id="tiktokDrop">
-            <span>Arraste e solte aqui</span>
-            <strong>OU clique para selecionar</strong>
+            <span>Adicionar print de follow</span>
+            <strong>Clique ou arraste aqui</strong>
           </div>
           <div class="preview" id="tiktokPreview"></div>
         </div>
+
       </div>
 
-      <div class="checkbox-group">
-        <label class="checkbox-label">
-          <input type="checkbox" id="confirmFollow" required>
-          <span>Confirmo que sigo todas as redes sociais.</span>
-        </label>
-      </div>
+      <!-- CHECK -->
+      <label class="checkbox-label">
+        <input type="checkbox" required>
+        <span>Confirmo que sigo as redes sociais da comunidade.</span>
+      </label>
 
+      <!-- PROGRESS -->
       <div class="progress-panel">
         <div class="progress-bar" id="progressBar"><span></span></div>
       </div>
 
-      <button type="submit" id="btnSubmit" class="btn-submit">Enviar Verificação</button>
+      <!-- SUBMIT -->
+      <button type="submit" class="btn-submit">
+        Solicitar acesso
+      </button>
 
+      <!-- SUCCESS -->
       <div class="success-panel hidden" id="successPanel">
-        <h2>Verificação enviada com sucesso.</h2>
-        <p>Após análise, o link do produto será enviado para seu email.</p>
+        <h2>Acesso enviado</h2>
+        <p>Se aprovado, receberás o link no teu email.</p>
       </div>
+
     </form>
 
     <div id="toast" class="toast hidden"></div>
+
   </div>
 
   <script src="assets/js/verificacao.js"></script>
+
 </body>
+
 </html>
