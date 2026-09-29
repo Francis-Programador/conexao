@@ -46,6 +46,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (loader) {
     setTimeout(() => loader.classList.add('hidden'), 250);
   }
+
+  const requestedProduct = new URLSearchParams(window.location.search).get('produto');
+  const messageField = document.getElementById('message');
+  if (requestedProduct && messageField) {
+    messageField.value = requestedProduct.trim();
+  }
+
   dropZones.forEach((zone) => setupDropZone(zone));
 });
 
